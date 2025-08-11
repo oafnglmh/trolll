@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Nguyễn Phi Yến</title>
+<style>
+  body {
+    margin: 0;
+    background: #000;
+    color: #39ff14;
+    font-family: monospace;
+    font-size: 14px;
+    overflow: hidden;
+    display: flex;
+  }
+  #left, #right {
+    width: 50%;
+    height: 100vh;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    white-space: pre-wrap;
+  }
+  #left {
+    border-right: 1px solid #39ff14;
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+</style>
+</head>
+<body>
+<div id="left"></div>
+<div id="right"></div>
+
+<script>
+const lines = [
+  "[INIT] Đang kết nối tới máy chủ mục tiêu...",
+  "[OK] Đã kết nối với thiết bị: NguyenPhiYen",
+  "[INIT] Đã dành được quyền kiểm soát...",
+  "[SCAN] Đang quét cổng mạng 22, 80, 443...",
+  "[OK] Cổng 22 mở - SSH service phát hiện",
+  "[LOGIN] Thử đăng nhập bằng tài khoản: nguyenyen...",
+  "[OK] Đăng nhập thành công (mật khẩu yếu)",
+  "[UPLOAD] Đang tải payload giả lập...",
+  "[OK] Payload tải thành công - không có hại (prank)",
+  "[SIM] Đang thu thập dữ liệu: Ảnh, tài liệu, mật khẩu...",
+  "[DATA] Phát hiện 1200 file ảnh selfi, 3 file word",
+  "[HACK] Đang mã hóa dữ liệu giả lập...",
+  "[DONE] Mã hóa hoàn tất (mô phỏng - không thật)",
+  "[SEND] Gửi dữ liệu tới server: prank.server/fake",
+  "[COMPLETE] Cuộc tấn công đùa kết thúc.",
+  "[NOTE] Đây chỉ là trò đùa mà thôi."
+];
+
+let leftIndex = 0;
+const leftPanel = document.getElementById("left");
+
+function typeLine(line, callback) {
+  let i = 0;
+  const interval = setInterval(() => {
+    leftPanel.innerHTML += line[i];
+    i++;
+    if (i >= line.length) {
+      clearInterval(interval);
+      leftPanel.innerHTML += "\n";
+      leftPanel.scrollTop = leftPanel.scrollHeight;
+      callback();
+    }
+  }, 30);
+}
+
+function runLeft() {
+  if (leftIndex < lines.length) {
+    typeLine(lines[leftIndex], () => {
+      leftIndex++;
+      setTimeout(runLeft, 300);
+    });
+  } else {
+    leftPanel.innerHTML += "\n< Kết thúc mô phỏng >";
+  }
+}
+const rightPanel = document.getElementById("right");
+const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>[]{}#@$%^&*()-_=+";
+function randomChar() {
+  return chars.charAt(Math.floor(Math.random() * chars.length));
+}
+function runRight() {
+  rightPanel.innerHTML += randomChar();
+  if (Math.random() < 0.05) rightPanel.innerHTML += "\n";
+  rightPanel.scrollTop = rightPanel.scrollHeight;
+  requestAnimationFrame(runRight);
+}
+runLeft();
+runRight();
+</script>
+</body>
+</html>
